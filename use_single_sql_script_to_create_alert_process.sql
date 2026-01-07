@@ -1,47 +1,3 @@
-![MIKES DATA WORK GIT REPO](https://raw.githubusercontent.com/mikesdatawork/images/master/git_mikes_data_work_banner_01.png "Mikes Data Work")        
-
-# Use Single SQL Script To Create Alert Process
-**Post Date: July 21, 2015**        
-
-
-
-## Contents    
-- [About Process](##About-Process)  
-- [SQL Logic](#SQL-Logic)  
-- [Author](#Author)  
-- [License](#License)       
-
-## About-Process
-
-<p>Here is some SQL logic that will create an SQL Job Alert formatted with HTML and CSS.
-What does this script do? It creates a Job called "SQL Job Alerts". If it already exists it will drop the Job, and recreate. 
-
-These are the actions the Job will take once it's run.
-
-1. Creates an 'after insert' trigger on the MSDB..SysJobHistory table.
-About the trigger (serves as the primary alerting process)
-a. Checks for any newly added "failed" message that is inserted into the MSDB..SysJobHistory table.
-b. If a "failed" message is detected; it immediately runs the Job 'SQL Job Alerts'.
-2. Configures SQL Database Mail with a generic profile called "SQLDatabaseMailProfile" that should work in most SQL environments.
-3. Sends a test notification to a distribution group after it's configured. (Put your DBA's in the distribution group)
-What do I need to do first to make this work?
-1. Be the DBA. Have the necessary sysadmin rights on the box to make this work.
-2. Create a distribution group called "SQLJobAlerts@MyDomain.com" Your Exchange Admin can set this up.
-Note: Make sure the exchange admin configures the following settings for Distribution Groups otherwise it won't send out messages.
-a. Enable the distribution group to receive mail from external senders.
-b. Disable the configuration that requires all senders to be authenticated.
-3. Put yourself and the other DBA's into that group.
-4. Add your SMTP Server Name to the SQL script.
-
-Find and Replace this for SMTP Server Name: MySMTPServerName.MyDomain.com
-Find and Replace this for Distribution Group: SQLJobAlerts@MyDomain.com
-
-The good thing about this logic is once you have SMTP and Distribution Group information plugged in… You can run the script on any SQL Database server, and you'll have all your Job notifications configured automatically. I use this as part of my SQL Server builds.
-Run the script on your SQL Server.</p>      
-
-
-## SQL-Logic
-```SQL
 USE [msdb]
 GO
  
@@ -401,20 +357,3 @@ QuitWithRollback:
 EndSave:
  
 GO
-```
-
-
-[![WorksEveryTime](https://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg)](https://shitday.de/)
-
-## Author
-
-[![Gist](https://img.shields.io/badge/Gist-MikesDataWork-<COLOR>.svg)](https://gist.github.com/mikesdatawork)
-[![Twitter](https://img.shields.io/badge/Twitter-MikesDataWork-<COLOR>.svg)](https://twitter.com/mikesdatawork)
-[![Wordpress](https://img.shields.io/badge/Wordpress-MikesDataWork-<COLOR>.svg)](https://mikesdatawork.wordpress.com/)
-
-    
-## License
-[![LicenseCCSA](https://img.shields.io/badge/License-CreativeCommonsSA-<COLOR>.svg)](https://creativecommons.org/share-your-work/licensing-types-examples/)
-
-![Mikes Data Work](https://raw.githubusercontent.com/mikesdatawork/images/master/git_mikes_data_work_banner_02.png "Mikes Data Work")
-
